@@ -10,21 +10,21 @@ from UserDict import UserDict
 from inspect import cleandoc
 
 _HTML_HEADER = """
-<!doctype html>\n
-<html>\n
-<head>
-<meta charset="UTF-8">
-<title>GroupMe Transcript</title>
-<link rel="stylesheet" type="text/css" href="transcript.css"/>
-</head>\n
-<body>
-<div class="container">
-<h1 style="font-family:sans-serif;">Messages from """
+<!doctype html>
+<html>
+\t<head>
+\t\t<meta charset="UTF-8">
+\t\t<link rel="stylesheet" type="text/css" href="transcript.css"/>
+\t\t<title>GroupMe Transcript</title>
+\t</head>
+\t<body>
+\t\t<div class="container">
+\t\t\t<h1 style="font-family:sans-serif;">Messages from """
 
 _HTML_FOOTER = """
-</div>
-</div>
-</body>
+\t\t\t</div>
+\t\t</div>
+\t</body>
 </html>
 """
 
@@ -87,8 +87,8 @@ def write_html_transcript(messages, folder, outfiles, image_cache):
             current_filename = str(time.year) + "_messages.html"
             current_file = open(os.path.join(folder, current_filename), 'w')
             current_file.write(_HTML_HEADER)
-            current_file.write(str(time.year))
-            current_file.write("</h1><div class=\"chat\">")
+            current_file.write(str(time.year) + '</h1>\n')
+            current_file.write('\t\t\t<div class="chat">')
             outfiles.append(current_file)
 
         # write avi
@@ -153,7 +153,7 @@ def write_html_transcript(messages, folder, outfiles, image_cache):
             print '%04d/%04d messages processed' % (n, len(messages))
 
 def write_html(transcript, folder):
-    shutil.copyfile('resources/groupme.css', os.path.join(folder, 'groupme.css'))
+    shutil.copyfile('resources/transcript.css', os.path.join(folder, 'transcript.css'))
 
     #image_cache = ImageCache(folder)
     image_cache = 0
@@ -167,18 +167,19 @@ def write_html(transcript, folder):
 def main():
 
     # print error message if not executed correctly
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 2:
         print "\nUSAGE ERROR! Execution example format:\n"
-        print "             argv[0]               argv[1]                 argv[2]"
-        print "$ python html_transcript.py transcript_filename.json html_output_foldername\n"
+        print "             argv[0]               argv[1]"
+        print "$ python html_transcript.py transcript_filename.json\n"
         sys.exit(1)
 
     # make folder that will contain written html file (argv[2] should be desired name of folder)
-    if not os.path.exists(sys.argv[2]):
-        os.mkdir(sys.argv[2])
+    output_folder_name = (sys.argv[1]).replace('_transcript.json', '_html')
+    if not os.path.exists(output_folder_name):
+        os.mkdir(output_folder_name)
 
     # make folder that will contain pic/vid attachments
-    attachments_folder = os.path.join(sys.argv[2], 'attachments')
+    attachments_folder = os.path.join(output_folder_name, 'attachments')
     if not os.path.exists(attachments_folder):
         os.mkdir(attachments_folder)
 
@@ -188,7 +189,7 @@ def main():
     transcript_file.close()
 
     # actually write the html
-    write_html(transcript_data, sys.argv[2])
+    write_html(transcript_data, output_folder_name)
 
 if __name__ == '__main__':
     main()
