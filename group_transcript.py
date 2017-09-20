@@ -4,22 +4,21 @@ import sys
 import requests
 import json
 
-def requestError(request):
-    print (request.status_code)
-    print (request.headers)
-    print (request.text)
-    sys.exit(2)
-
-def get_transcript(id, token):
+def get_group_name(id, token):
 
     # get group name
     name_endpoint = 'https://api.groupme.com/v3/groups/'+id+'?token='+token
-    name_res = requests.get(name_endpoint)
-    if name_res.status_code is not 200:
-        requestError(name_res)
-    name_json = name_res.json()['response']
+    name_response = requests.get(name_endpoint)
+    if name_response.status_code is not 200:
+        print "\nHTTP error code " + str(groups_response.status_code) + "\n"
+        sys.exit(2)
+
+    name_json = name_response.json()['response']
     group_name = (name_json['name']).replace(' ', '_')
     transcript_filename = group_name + '_transcript.json'
+    return transcript_filename
+
+def get_transcript(id, token, outfile):
 
     # initialize vars
     messages_endpoint = 'https://api.groupme.com/v3/groups/'+id+'/messages'
@@ -37,7 +36,8 @@ def get_transcript(id, token):
 
         messages_res = requests.get(messages_endpoint, params=params)
         if messages_res.status_code is not 200:
-            requestError(messages_res)
+            print "\nHTTP error code " + str(groups_response.status_code) + "\n"
+            sys.exit(2)
 
         messages_json = messages_res.json()
         messages_list = messages_json['response']['messages']
@@ -51,31 +51,32 @@ def get_transcript(id, token):
                 print str(soFar) + ' messages loaded so far!'
         else:
             done = True
-            print('Done!\n')
+            print('Done!')
 
-
+    # sort messages and write to transcript file
     pulled_messages = sorted(pulled_messages, key=lambda k: k['created_at'])
-    print 'Pulled {0} new messages from {1} to {2} to transcript file'.format(
-        len(pulled_messages),
-        datetime.fromtimestamp(pulled_messages[0]['created_at']),
-        datetime.fromtimestamp(pulled_messages[-1]['created_at']),
-    )
+    oldest_msg_date = datetime.fromtimestamp(pulled_messages[0]['created_at'])
+    newest_msg_date = datetime.fromtimestamp(pulled_messages[-1]['created_at'])
 
-    transcript_file = open(transcript_filename, 'w+')
-    transcript_file.write(json.dumps(pulled_messages))
-    transcript_file.close()
+    print "\nPulled " + str(len(pulled_messages)) + " messages\n" \
+          "from: " + str(oldest_msg_date) + "\n" \
+          "to:   " + str(newest_msg_date) + "\n"
 
+    outfile.write(json.dumps(pulled_messages))
 
 def main():
     if len(sys.argv) != 3:
-        print "\nPlease execute using the following example format:\n"
-        print "             argv[0]         argv[1]        argv[2]"
-        print "$ python get_transcript.py   GROUP_ID   YOUR_ACCESS_TOKEN\n"
+        print "\nPlease execute using the following example format:\n" \
+              "             argv[0]         argv[1]        argv[2]\n" \
+              "$ python get_transcript.py   GROUP_ID   YOUR_ACCESS_TOKEN\n"
         sys.exit(1)
 
     group_id = sys.argv[1]
     token = sys.argv[2]
-    get_transcript(group_id, token)
+    transcript_filename = get_group_name(group_id, token)
+    transcript_file = open(transcript_filename, 'w+')
+    get_transcript(group_id, token, transcript_file)
+    transcript_file.close()
 
 if __name__ == '__main__':
     main()

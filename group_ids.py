@@ -3,7 +3,7 @@ import sys
 import requests
 import json
 
-def get_groups(token, outfile):
+def get_groups(outfile, token):
     groups_endpoint = 'https://api.groupme.com/v3/groups?token=' + token
     groups_response = requests.get(groups_endpoint)
 
@@ -19,18 +19,18 @@ def get_groups(token, outfile):
 
 def main():
     if len(sys.argv) != 2:
-        print "\nPlease execute using the following example format:" \
-              "\n             argv[0]               argv[1]" \
-              "\n$ python get_group_ids.py YOUR_ACCESS_TOKEN\n"
+        print "\nPlease execute using the following example format:\n" \
+              "             argv[0]               argv[1]\n" \
+              "$ python get_group_ids.py YOUR_ACCESS_TOKEN\n"
         sys.exit(1)
 
     token = sys.argv[1]
     groups_file = open('my_group_ids.txt', 'w+')
-    get_groups(token, groups_file)
+    get_groups(groups_file, token)
     groups_file.close()
-    print "\nA text file, 'my_group_ids.txt' has been created that holds" \
-          "\nthe names of the groups that you are in as well as their" \
-          "\nassociated unique Group IDs!\n"
+    print "\nA text file, 'my_group_ids.txt' has been created that holds\n" \
+          "the names of the groups that you are in as well as their\n" \
+          "associated unique Group IDs!\n"
 
 if __name__ == '__main__':
     main()

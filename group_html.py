@@ -168,17 +168,17 @@ def main():
 
     # print error message if not executed correctly
     if len(sys.argv) != 2:
-        print "\nUSAGE ERROR! Execution example format:\n"
-        print "             argv[0]               argv[1]"
-        print "$ python html_transcript.py transcript_filename.json\n"
+        print "\nUSAGE ERROR! Execution example format:\n" \
+              "             argv[0]               argv[1]\n" \
+              "$ python html_transcript.py transcript_filename.json\n"
         sys.exit(1)
 
-    # make folder that will contain written html file (argv[2] should be desired name of folder)
+    # make folder that will contain written html files
     output_folder_name = (sys.argv[1]).replace('_transcript.json', '_html')
     if not os.path.exists(output_folder_name):
         os.mkdir(output_folder_name)
 
-    # make folder that will contain pic/vid attachments
+    # make folder that will contain pic/vid attachments (for offline access)
     attachments_folder = os.path.join(output_folder_name, 'attachments')
     if not os.path.exists(attachments_folder):
         os.mkdir(attachments_folder)
