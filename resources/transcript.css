@@ -1,0 +1,54 @@
+/* Overall container stuff - centered, width, etc. */
+.container {
+    margin-left: 200px;
+    margin-top: 20px;
+    min-width: 720px;
+    width: 40%;
+}
+
+/* "System" messages about events in chat. */
+.system .author {
+    display: none;
+}
+.system .message {
+    font-style: italic;
+    font-size: 20pt;
+}
+
+/* Overall message formatting stuff */
+.chat {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.datetime {
+    font-size: 12pt;
+    color: #708090;
+}
+
+.author {
+    font-size: 15pt;
+    color: #808080;
+}
+
+.avi {
+  width:70px;
+  height:70px;
+  overflow:hidden;
+  margin:10px;
+  border-radius:50%;
+  position:relative;
+}
+
+.message {
+    font-size: 20pt;
+    color:#000000;
+}
+
+.likes-heart:after {
+    color: red;
+    content: "";
+}
+
+.message-container img {
+    max-width: 100%;
+}
