@@ -9,6 +9,7 @@ def get_group_name(id, token):
     # get group name
     name_endpoint = 'https://api.groupme.com/v3/groups/'+id+'?token='+token
     name_response = requests.get(name_endpoint)
+
     if name_response.status_code is not 200:
         print "\nHTTP error code " + str(groups_response.status_code) + "\n"
         sys.exit(2)
