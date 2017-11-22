@@ -14,7 +14,7 @@ _HTML_HEADER = """
 <html>
 \t<head>
 \t\t<meta charset="UTF-8">
-\t\t<link rel="stylesheet" type="text/css" href="transcript.css"/>
+\t\t<link rel="stylesheet" type="text/css" href="group_transcript.css"/>
 \t\t<title>GroupMe Transcript</title>
 \t</head>
 \t<body>
@@ -153,7 +153,7 @@ def write_html_transcript(messages, folder, outfiles, image_cache):
             print '%04d/%04d messages processed' % (n, len(messages))
 
 def write_html(transcript, folder):
-    shutil.copyfile('resources/transcript.css', os.path.join(folder, 'transcript.css'))
+    shutil.copyfile('resources/group_transcript.css', os.path.join(folder, 'group_transcript.css'))
 
     #image_cache = ImageCache(folder)
     image_cache = 0
