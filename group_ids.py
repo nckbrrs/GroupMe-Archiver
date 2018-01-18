@@ -14,14 +14,14 @@ def get_groups(outfile, token):
     groups_json = groups_response.json()
     outfile.write("GroupMe groups in which you are a member, and their IDs:\n\n")
     for group in groups_json['response']:
-        outfile.write('Group Name: ' + group['name'] + '\n')
-        outfile.write('Group ID: ' + group['id'] + '\n\n')
+        outfile.write('Group Name: ' + (group['name']).encode('utf-8') + '\n')
+        outfile.write('Group ID: ' + (group['id']).encode('utf-8') + '\n\n')
 
 def main():
     if len(sys.argv) != 2:
         print "\nPlease execute using the following example format:\n" \
               "             argv[0]               argv[1]\n" \
-              "$ python get_group_ids.py YOUR_ACCESS_TOKEN\n"
+              "$ python group_ids.py YOUR_ACCESS_TOKEN\n"
         sys.exit(1)
 
     token = sys.argv[1]

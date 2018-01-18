@@ -170,7 +170,7 @@ def main():
     if len(sys.argv) != 2:
         print "\nUSAGE ERROR! Execution example format:\n" \
               "             argv[0]               argv[1]\n" \
-              "$ python html_transcript.py transcript_filename.json\n"
+              "$ python group_html.py transcript_filename.json\n"
         sys.exit(1)
 
     # make folder that will contain written html files

@@ -69,7 +69,7 @@ def main():
     if len(sys.argv) != 3:
         print "\nPlease execute using the following example format:\n" \
               "             argv[0]         argv[1]        argv[2]\n" \
-              "$ python get_transcript.py   GROUP_ID   YOUR_ACCESS_TOKEN\n"
+              "$ python group_transcript.py   GROUP_ID   YOUR_ACCESS_TOKEN\n"
         sys.exit(1)
 
     group_id = sys.argv[1]
